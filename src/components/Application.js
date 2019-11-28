@@ -51,11 +51,23 @@ export default function Application(props) {
         ...state.appointments,
         [id]: appointment
       };
-
        return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
         .then(setAppointments(appointments))
+    }
 
+    function onDelete(id){
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
 
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+
+      return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+        .then(setAppointments(appointments))
     }
 
   
@@ -67,6 +79,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        onDelete={onDelete}
       />
     );
   });
