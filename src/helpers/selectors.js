@@ -1,8 +1,7 @@
-import { string } from "prop-types"
-
 export function getAppointmentsForDay(state, day) {
 
   const filteredDays = state.days.filter(obj => obj.name === day)
+  
   if (filteredDays.length === 0) {
     return []
   }

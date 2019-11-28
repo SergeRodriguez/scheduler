@@ -1,19 +1,45 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import axios from "axios"
+import { act } from "react-test-renderer";
 
-const useApplicationData = () =>{
+const SET_DAY = "SET_DAY"
+const SET_DAYS = "SET_DAYS"
+const SET_APPOINTMENTS = "SET_APPOINTMENTS"
+const SET_INTERVIEWERS = "SET_INTERVIEWERS"
 
-const [state, setState] = useState({
-  day: "Monday",
-  days: [],
-  appointments: {},
-  interviewers: {}
-});
+function reducer(state, action) {
+  switch (action.type) {
+    case SET_DAY:
+      return { ...state, day: action.value }
+    case SET_DAYS:
+      return { ...state, days: action.value }
+    case SET_INTERVIEWERS: {
+      return { ...state, interviewers: action.value }
+    }
+    case SET_APPOINTMENTS: {
+      return { ...state, appointments: action.value }
+    }
+    default:
+      throw new Error(
+        `Tried to reduce with unsupported action type: ${action.type}`
+      );
+  }
 
-const setDay = day => setState({ ...state, day });
-  const setDays = days => setState(prev => ({ ...prev, days }));
-  const setAppointments = appointments => setState(prev => ({ ...prev, appointments }));
-  const setInterviewers = interviewers => setState(prev => ({ ...prev, interviewers }));
+}
+
+const useApplicationData = () => {
+
+  const [state, dispatch] = useReducer(reducer, {
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {}
+  });
+
+  const setDay = day => dispatch({ type: SET_DAY, value: day });
+  const setDays = days => dispatch({ type: SET_DAYS, value: days });
+  const setAppointments = appointments => dispatch({ type: SET_APPOINTMENTS, value: appointments });
+  const setInterviewers = interviewers => dispatch({ type: SET_INTERVIEWERS, value: interviewers });
 
 
   useEffect(() => {
@@ -61,7 +87,8 @@ const setDay = day => setState({ ...state, day });
         setAppointments(appointments)
       })
   }
-  return {state, setDay, bookInterview, onDelete}
+  return { state, setDay, bookInterview, onDelete }
 }
 
 export default useApplicationData
+
