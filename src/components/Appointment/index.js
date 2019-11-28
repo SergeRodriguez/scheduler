@@ -10,7 +10,6 @@ import Error from "./Error.js"
 import React from 'react'
 import useVisualMode from "../../hooks/useVisualMode.js"
 import Form from "./Form"
-import { func } from "prop-types"
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
