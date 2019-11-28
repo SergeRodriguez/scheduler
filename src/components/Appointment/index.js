@@ -16,6 +16,7 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETE = "DELETE";
 const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
 
 
 
@@ -49,13 +50,17 @@ export default function Appointment(props) {
 
   function onDelete() {
     transition(CONFIRM)
-   
+
   }
 
-  function onConfirm (){
-    transition(DELETE) 
+  function onConfirm() {
+    transition(DELETE)
     props.onDelete(props.id)
       .then(() => transition(EMPTY))
+  }
+
+  function onEdit(){
+    transition(EDIT)
   }
 
   return (
@@ -71,6 +76,7 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={onDelete}
+          onEdit ={onEdit}
           id={props.id}
         />
       )}
@@ -80,12 +86,20 @@ export default function Appointment(props) {
         onCancel={onCancel}
       />}
 
+      {mode === EDIT && <Form
+        interviewers={props.interviewers}
+        onSave={onSave}
+        onCancel={onCancel}
+        name={props.interview.student}
+        interviewer={props.interview.interviewer.id}
+      />}
+
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETE && <Status message="Deleting" />}
-      {mode === CONFIRM && <Confirm 
-      message="Are you sure you would like to delete?"
-      onConfirm={onConfirm}
-      onCancel={onCancel}
+      {mode === CONFIRM && <Confirm
+        message="Are you sure you would like to delete?"
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       >
 
       </Confirm>}
