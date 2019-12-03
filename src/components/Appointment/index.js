@@ -21,12 +21,6 @@ const EDIT = "EDIT";
 const ERROR_DELETE = "ERROR_DELETE"
 const ERROR_SAVE = "ERROR_SAVE"
 
-
-
-
-
-
-
 export default function Appointment(props) {
 
   const { mode, transition, back } = useVisualMode(
@@ -70,7 +64,7 @@ export default function Appointment(props) {
   }
 
   return (
-    <article className="appointment">
+    <article data-testid="appointment" className="appointment">
 
 
       <Header time={props.time}>

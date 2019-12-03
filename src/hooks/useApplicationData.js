@@ -54,8 +54,8 @@ const useApplicationData = () => {
 
     ]).then((all) => {
       setDays(all[0].data);
-      setAppointments(all[1].data);
       setInterviewers(all[2].data)
+      setAppointments(all[1].data);
 
     })
 
