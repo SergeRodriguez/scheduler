@@ -38,6 +38,7 @@ const useApplicationData = () => {
 
   }, [])
 
+  // adds interview to database and adds it to the state
   function bookInterview(id, interview) {
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
@@ -54,6 +55,7 @@ const useApplicationData = () => {
       })
   }
 
+  // delete interview from database and removes it from the state
   function onDelete(id) {
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
@@ -61,12 +63,10 @@ const useApplicationData = () => {
           ...state.appointments[id],
           interview: null
         };
-
         const appointments = {
           ...state.appointments,
           [id]: appointment
         };
-
         setAppointments(appointments)
         axios.get("http://localhost:8001/api/days").then(res => setDays(res.data))
       })

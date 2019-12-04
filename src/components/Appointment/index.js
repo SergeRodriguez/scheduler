@@ -11,6 +11,7 @@ import React from 'react'
 import useVisualMode from "../../hooks/useVisualMode.js"
 import Form from "./Form"
 
+// These are all of the the different visual states of the appointment component
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
@@ -18,8 +19,8 @@ const SAVING = "SAVING";
 const DELETE = "DELETE";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
-const ERROR_DELETE = "ERROR_DELETE"
-const ERROR_SAVE = "ERROR_SAVE"
+const ERROR_DELETE = "ERROR_DELETE";
+const ERROR_SAVE = "ERROR_SAVE";
 
 export default function Appointment(props) {
 
@@ -35,6 +36,7 @@ export default function Appointment(props) {
     back()
   }
 
+  //updates the state and the database with the new interview
   function onSave(name, interviewer) {
     const interview = {
       student: name,
@@ -51,6 +53,7 @@ export default function Appointment(props) {
 
   }
 
+  // deletes the interview in the database and updates the state
   function onConfirm() {
 
     transition(DELETE, true)
