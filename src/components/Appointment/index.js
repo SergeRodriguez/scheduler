@@ -8,6 +8,8 @@ import Error from "./Error.js"
 
 
 import React from 'react'
+import {useEffect } from "react";
+
 import useVisualMode from "../../hooks/useVisualMode.js"
 import Form from "./Form"
 
@@ -65,6 +67,15 @@ export default function Appointment(props) {
   function onEdit() {
     transition(EDIT)
   }
+
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
 
   return (
     <article data-testid="appointment" className="appointment">

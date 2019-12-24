@@ -24,6 +24,7 @@ const useApplicationData = () => {
 
 
   useEffect(() => {
+
     Promise.all([
       Promise.resolve(axios.get("http://localhost:8001/api/days")),
       Promise.resolve(axios.get("http://localhost:8001/api/appointments")),
@@ -36,12 +37,33 @@ const useApplicationData = () => {
 
     })
 
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL)
+
+    webSocket.onopen = function (event) {
+      webSocket.send("ping");
+      console.log("open connection:", event.data)
+
+    };
+
+    webSocket.onmessage = function (event) {
+      const message = JSON.parse(event.data)
+      console.log("message received:", JSON.parse(event.data))
+      console.log("state", state)
+    
+      if (message.type === "SET_INTERVIEW") {
+        axios.get("http://localhost:8001/api/appointments").then(res => setAppointments(res.data))
+        axios.get("http://localhost:8001/api/days").then(res => setDays(res.data))
+      }
+
+    }
+
   }, [])
 
   // adds interview to database and adds it to the state
   function bookInterview(id, interview) {
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
+        console.log("this one state", state)
         const appointment = {
           ...state.appointments[id],
           interview: { ...interview }

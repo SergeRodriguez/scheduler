@@ -11,9 +11,12 @@ function reducer(state, action) {
     case SET_DAYS:
       return { ...state, days: action.value }
     case SET_INTERVIEWERS: {
+      console.log("action set interviewers",action)
+
       return { ...state, interviewers: action.value }
     }
     case SET_APPOINTMENTS: {
+      console.log("action set appointments",action)
       return { ...state, appointments: action.value }
     }
     case SET_SPOTS: {
